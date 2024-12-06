@@ -34,6 +34,8 @@ const CustomTextInput = ({
           paddingHorizontal: 10,
           overflow:'scroll'
         }}
+        autoCapitalize='none'
+        autoCorrect={false}
         value={text}
         onChangeText={(value) => {
           setText(value);

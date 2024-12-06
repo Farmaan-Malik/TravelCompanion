@@ -1,4 +1,4 @@
-import { View, Text, Image, Animated } from "react-native";
+import { View, Text, Image, Animated, Alert } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "@/assets/styles/globalStyles";
@@ -9,9 +9,13 @@ import CustomTextInput from "@/components/CustomTextInput";
 import CustomButton from "@/components/CustomButton";
 import LinearGradient from "react-native-linear-gradient";
 import { Colors } from "@/assets/colors/colors";
+import { router } from "expo-router";
+import Ionicons from "@expo/vector-icons/build/Ionicons";
 
 const SignupPage = () => {
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const avatar = createAvatar(lorelei, {
     seed: username,
   });
@@ -28,6 +32,9 @@ const SignupPage = () => {
         colors={Colors.PrimaryGradient}
         style={[globalStyles.view]}
       >
+        <View style={{width:'100%',height:40,position:'absolute',top:50,justifyContent:'center',alignItems:'flex-start',left:10}}>
+            <Ionicons onPress={()=>{router.back()}} size={30} name="chevron-back"/>
+          </View>
         <Animated.View style={{transform:[{scale:progress.interpolate({inputRange:[0,1], outputRange:[0,1]})}]}}>
           <SvgXml style={{ width: 150, height: 150 }} xml={svg}></SvgXml>
         </Animated.View>
@@ -74,7 +81,15 @@ const SignupPage = () => {
         <CustomButton
           style={{ marginTop: 50, width: "40%" }}
           label="Signup"
-          onPress={() => {}}
+          onPress={() => {
+            // if (password == confirmPassword && username.length >= 8) {
+            //     //do something
+            router.navigate('/(auth)')
+            // }
+            // else{
+            //     Alert.alert('error message here')
+            // }
+          }}
           colorArray={["black", "black"]}
         />
         </Animated.View>

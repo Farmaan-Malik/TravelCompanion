@@ -6,6 +6,9 @@ import { Colors } from "@/assets/colors/colors";
 import CustomTextInput from "@/components/CustomTextInput";
 import LinearGradient from "react-native-linear-gradient";
 import CustomButton from "@/components/CustomButton";
+import { router } from "expo-router";
+import { Header } from "react-native/Libraries/NewAppScreen";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const LoginPage = () => {
   const progress = useRef(new Animated.Value(0)).current;
@@ -20,16 +23,18 @@ const LoginPage = () => {
   return (
     <SafeAreaView style={globalStyles.safeAreaView} edges={[]}>
       <LinearGradient
-        style={globalStyles.view}
+        style={[globalStyles.view,{display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'baseline'}]}
         colors={Colors.PrimaryGradient}
         start={{ x: 0, y: 1 }}
         end={{ x: 1, y: 1 }}
       >
-        <View style={{width:'100%'}}>
-        </View>
+          <View style={{width:'100%',height:40,position:'absolute',top:50,justifyContent:'center',alignItems:'flex-start',left:10,zIndex:1}}>
+            <Ionicons onPress={()=>{router.back()}} size={30} name="chevron-back"/>
+          </View>
+         
         <Animated.View
           style={{
-            height: "100%",
+            flex:1,
             width: "100%",
             justifyContent: "center",
             alignItems: "center",
@@ -49,6 +54,7 @@ const LoginPage = () => {
             ],
           }}
         >
+         
           <Animated.Text
             style={{
               fontSize: 20,
@@ -72,7 +78,7 @@ const LoginPage = () => {
           }}/>
           <CustomButton 
           colorArray={['black','black']}
-          label='Login' onPress={()=>{}}/>
+          label='Login' onPress={()=>{router.replace('/(auth)')}}/>
         </Animated.View>
       </LinearGradient>
     </SafeAreaView>
