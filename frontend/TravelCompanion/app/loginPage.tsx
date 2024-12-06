@@ -5,6 +5,7 @@ import { globalStyles } from "@/assets/styles/globalStyles";
 import { Colors } from "@/assets/colors/colors";
 import CustomTextInput from "@/components/CustomTextInput";
 import LinearGradient from "react-native-linear-gradient";
+import CustomButton from "@/components/CustomButton";
 
 const LoginPage = () => {
   const progress = useRef(new Animated.Value(0)).current;
@@ -20,10 +21,12 @@ const LoginPage = () => {
     <SafeAreaView style={globalStyles.safeAreaView} edges={[]}>
       <LinearGradient
         style={globalStyles.view}
-        colors={["#D4F3FD", "#F4FBFE"]}
+        colors={Colors.PrimaryGradient}
         start={{ x: 0, y: 1 }}
         end={{ x: 1, y: 1 }}
       >
+        <View style={{width:'100%'}}>
+        </View>
         <Animated.View
           style={{
             height: "100%",
@@ -49,14 +52,27 @@ const LoginPage = () => {
           <Animated.Text
             style={{
               fontSize: 20,
-              marginBottom: 10,
+              marginBottom: 20,
               fontWeight: "bold",
             }}
           >
             Login To your Account
           </Animated.Text>
-          <CustomTextInput label="Enter username" />
-          <CustomTextInput label="Enter password" />
+          <CustomTextInput label="Enter username"  style={{
+            width: "80%",
+            height: "7%",
+            marginBottom:10
+
+          }} />
+          <CustomTextInput label="Enter password" 
+           style={{
+            width: "80%",
+            height: "7%",
+            marginBottom:30
+          }}/>
+          <CustomButton 
+          colorArray={['black','black']}
+          label='Login' onPress={()=>{}}/>
         </Animated.View>
       </LinearGradient>
     </SafeAreaView>

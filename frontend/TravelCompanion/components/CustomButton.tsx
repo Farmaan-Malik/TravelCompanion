@@ -3,10 +3,13 @@ import LinearGradient from 'react-native-linear-gradient';import React from "rea
 import { Colors } from "@/assets/colors/colors";
 
 interface CustomButtonProps {
-onPress:()=>void
+onPress:()=>void,
+label:string,
+style?:object,
+colorArray?:string[]
 }
 
-const CustomButton = ({onPress}: CustomButtonProps ) => {
+const CustomButton = ({onPress,label,style,colorArray = Colors.PrimaryGradient}: CustomButtonProps ) => {
   const width = Dimensions.get("screen").width / 1.8;
   const height = width / 3.5;
   return (
@@ -18,13 +21,14 @@ const CustomButton = ({onPress}: CustomButtonProps ) => {
         height: height,
         display: "flex",
         borderRadius: 50,
-        overflow:'hidden'
+        overflow:'hidden',
+        ...style
       }}
     >
       <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} style={{height:'100%', width:'100%',justifyContent: "center",
-        alignItems: "center",}} colors={Colors.PrimaryGradient}>
+        alignItems: "center",}} colors={colorArray}>
 
-      <Text style={{fontWeight:'bold',color:'white',fontSize:18}}>Login</Text>
+      <Text style={{fontWeight:'bold',color:'white',fontSize:18}}>{label}</Text>
       </LinearGradient>
     </TouchableOpacity>
   );

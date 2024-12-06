@@ -95,7 +95,8 @@ export default function Index() {
           }}
         >
           <MaskedText text="Explore the World, Together." fontSize={14} />
-          <CustomButton
+          <CustomButton 
+          label="Login"
             onPress={() => {
                 router.navigate("/loginPage");
             }}
