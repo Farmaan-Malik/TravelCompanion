@@ -8,7 +8,7 @@ const MaskedText = ({
   text = "",
   colorArray = Colors.BorderedGradient,
   fontSize = 18,
-  height = 10,
+  height = 5,
   width = 100,
 }) => {
   return (
