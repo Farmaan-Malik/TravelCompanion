@@ -10,6 +10,7 @@ const MaskedText = ({
   fontSize = 18,
   height = 5,
   width = 100,
+  textStyle={}
 }) => {
   return (
     <MaskedView
@@ -32,6 +33,7 @@ const MaskedText = ({
               fontSize: fontSize,
               fontWeight: "semibold",
               fontStyle: "italic",
+              ...textStyle
             }}
           >
             {text}

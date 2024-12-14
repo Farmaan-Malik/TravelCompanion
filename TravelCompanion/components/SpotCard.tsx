@@ -21,9 +21,10 @@ const SpotCard = ({ selected, onPress }: SpotCardData) => {
         borderRadius: 30,
         shadowColor: "black",
         shadowOpacity: 0.5,
-        shadowRadius: 5,
+        shadowRadius: 8,
         backgroundColor: "white",
         elevation: 5,
+        shadowOffset:{width:0,height:5}
         // overflow:'hidden'
       }}
       onPress={onPress}
@@ -114,7 +115,10 @@ const SpotCard = ({ selected, onPress }: SpotCardData) => {
               color: "white",
               fontWeight: 700,
               fontFamily: "Nunito",
+              paddingTop:10
             }}
+            numberOfLines={2}
+            ellipsizeMode='tail'
           >
             Air Terjun Luweng Sampang, Gunungkidul
           </Text>

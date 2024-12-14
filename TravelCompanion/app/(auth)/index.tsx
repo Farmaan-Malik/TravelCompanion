@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, ScrollView, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import React, { useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "@/assets/styles/globalStyles";
@@ -10,9 +16,12 @@ import { lorelei } from "@dicebear/collection";
 import { createAvatar } from "@dicebear/core";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import SpotCard from "@/components/SpotCard";
+import UserCard from "@/components/UserCard";
+import CustomOutlineButton from "@/components/CustomOutlineButton";
+import MaskedText from "@/components/MaskedText";
 
 const Index = () => {
-  const { width: screenWidth } = Dimensions.get("window");
+  const { width: screenWidth,height: screenHeight } = Dimensions.get("window");
   let name = "Farmaan";
   const avatar = createAvatar(lorelei, { seed: "farmaan Malik " });
   const svg = avatar.toString();
@@ -46,7 +55,7 @@ const Index = () => {
         <View style={[globalStyles.view, { justifyContent: "flex-start" }]}>
           <View
             style={{
-              height: "35%",
+              height: screenHeight/3.5,
               // borderWidth: 1,
               width: "100%",
               borderBottomStartRadius: 50,
@@ -59,6 +68,10 @@ const Index = () => {
               shadowOffset: { width: 0, height: 10 },
               alignItems: "center",
               paddingTop: 20,
+              elevation:20,
+              position:'absolute',
+              top:0,
+              zIndex:1
             }}
           >
             <Header
@@ -132,7 +145,7 @@ const Index = () => {
                   borderRadius: 13,
                   display: "flex",
                   flexDirection: "row",
-                  elevation:10
+                  elevation: 10,
                 }}
                 start={{ x: 0.6, y: 1 }}
                 end={{ x: 1, y: 1 }}
@@ -155,46 +168,124 @@ const Index = () => {
               </LinearGradient>
             </TouchableOpacity>
           </View>
-          <View
-            style={{
-              width: "100%",
-              marginTop: 10,
-              // borderWidth: 2,
-            }}
-          >
-            <Text
+          <ScrollView contentContainerStyle={{paddingTop:screenHeight/3.5}}>
+            <View
               style={{
                 width: "100%",
-                textAlign: "left",
-                fontSize: 21,
-                fontWeight: "semibold",
-                fontFamily: "Nunito",
-                paddingHorizontal: 20,
+                marginTop: 10,
+                // borderWidth: 2,
               }}
             >
-              Near your location
-            </Text>
-            <ScrollView
-              ref={scrollViewRef}
-              horizontal
-              onScroll={handleScroll}
-              scrollEventThrottle={16}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{
+              <Text
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  fontSize: 21,
+                  fontWeight: "600",
+                  fontFamily: "Nunito",
+                  paddingHorizontal: 20,
+                }}
+              >
+                Near your location
+              </Text>
+              <ScrollView
+                ref={scrollViewRef}
+                horizontal
+                onScroll={handleScroll}
+                scrollEventThrottle={16}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{
+                  alignItems: "center",
+                  paddingHorizontal: screenWidth / 3, // Center the first and last cards
+                  marginVertical: 20,
+                }}
+              >
+                {Array(8)
+                  .fill(null)
+                  .map((_, index) => (
+                    <SpotCard
+                      onPress={() => {
+                        setSelectedIndex(index);
+                        // scrollTo()
+                      }}
+                      key={index}
+                      selected={index === selectedIndex}
+                    />
+                  ))}
+              </ScrollView>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
                 alignItems: "center",
-                paddingHorizontal: (screenWidth)/3, // Center the first and last cards
-                marginVertical:20
+                flexDirection: "row",
+                width: "100%",
               }}
             >
-              {Array(8)
+              <Text
+                style={{
+                  // width: "100%",
+                  textAlign: "center",
+                  fontSize: 21,
+                  fontWeight: "600",
+                  fontFamily: "Nunito",
+                  paddingHorizontal: 20,
+                }}
+              >
+                Find Trip Partners!
+              </Text>
+              <TouchableOpacity
+                style={{
+                  width: Dimensions.get("window").width / 5,
+                  height: Dimensions.get('window').height/30,
+                  borderRadius: 50,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <LinearGradient
+                  style={{
+                    width: "100%",
+                    height:'100%',
+                    borderRadius: 50,
+                    overflow: "hidden",
+                    justifyContent:'center',
+                    alignItems:'center'
+                  }}
+                  colors={Colors.PrimaryGradient}
+                >
+                  <View
+                    style={{
+                      width: (Dimensions.get("window").width / 5)-4,
+                      height:(Dimensions.get('window').height/30)-4,
+                      backgroundColor: "white",
+                      borderRadius: 50,
+                      justifyContent:'center',
+                      alignItems:'center',
+                    }}
+                  > 
+                  <Text style={{ textAlign: "center",color:"#9184EE",fontSize:14,fontWeight:'500' }}>See All</Text>
+                  </View>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10,
+              }}
+            >
+              {Array(3)
                 .fill(null)
                 .map((_, index) => (
-                  <SpotCard onPress={()=>{setSelectedIndex(index)
-                    // scrollTo()
-                  }} key={index} selected={index === selectedIndex} />
+                  <UserCard key={index} />
                 ))}
-            </ScrollView>
-          </View>
+            </View>
+          </ScrollView>
         </View>
       </SafeAreaView>
     </LinearGradient>
