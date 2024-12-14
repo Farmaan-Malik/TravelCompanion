@@ -26,6 +26,7 @@ const OutlineIconButton = ({
         shadowOpacity: 0.2,
         shadowRadius: 5,
         backgroundColor: "white",
+        elevation:5,
         ...style,
       }}
     >
