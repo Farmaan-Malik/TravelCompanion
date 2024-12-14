@@ -2,16 +2,19 @@ import { View, Text } from "react-native";
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
+
+type IoniconsName = keyof typeof Ionicons.glyphMap;
+
 interface OutlineIconButton {
   style?: object;
   onPress: () => void;
-  icon: string;
+  iconName?: IoniconsName;
 }
 
 const OutlineIconButton = ({
   style,
   onPress,
-  icon = "menu-outline",
+  iconName = "menu-outline",
 }: OutlineIconButton) => {
   return (
     <View
@@ -20,7 +23,7 @@ const OutlineIconButton = ({
         width: 40,
         padding: 5,
         shadowColor: "black",
-        shadowOpacity: 0.5,
+        shadowOpacity: 0.2,
         shadowRadius: 5,
         backgroundColor: "white",
         ...style,
@@ -31,7 +34,7 @@ const OutlineIconButton = ({
           onPress;
         }}
         size={30}
-        name={icon}
+        name= {iconName}
       />
     </View>
   );

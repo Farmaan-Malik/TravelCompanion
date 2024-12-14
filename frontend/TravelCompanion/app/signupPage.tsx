@@ -19,8 +19,9 @@ const SignupPage = () => {
   const avatar = createAvatar(lorelei, {
     seed: username,
   });
+  console.log("Avatar", avatar)
   const svg = avatar.toString();
-  console.log(svg);
+  console.log("SVG",svg);
   const progress = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
