@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity,Animated, Image } from "react-native";
 import React from "react";
 import LinearGradient from "react-native-linear-gradient";
 import { Colors } from "@/assets/colors/colors";
@@ -7,6 +7,7 @@ interface SpotCardData {
   selected: boolean;
   onPress: () => void;
   image?: string;
+  trigger?:()=>void
 }
 const SpotCard = ({ selected, onPress }: SpotCardData) => {
   const width = selected ? 250 : 200;
@@ -14,7 +15,6 @@ const SpotCard = ({ selected, onPress }: SpotCardData) => {
   return (
     <TouchableOpacity
       style={{
-        // borderWidth: 1,
         height: height,
         width: width,
         marginHorizontal: 20,
@@ -25,7 +25,6 @@ const SpotCard = ({ selected, onPress }: SpotCardData) => {
         backgroundColor: "white",
         elevation: 5,
         shadowOffset:{width:0,height:5}
-        // overflow:'hidden'
       }}
       onPress={onPress}
     >

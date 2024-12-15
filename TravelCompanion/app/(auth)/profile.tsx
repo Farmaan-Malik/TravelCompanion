@@ -5,7 +5,7 @@ import { globalStyles } from "@/assets/styles/globalStyles";
 import Header from "@/components/Header";
 
 const ProfileTab = () => {
-  const height = Dimensions.get('window').height
+  const height = Dimensions.get("window").height;
   return (
     <SafeAreaView edges={[]} style={[globalStyles.safeAreaView]}>
       <View style={[globalStyles.view, { justifyContent: "flex-start" }]}>
@@ -13,7 +13,7 @@ const ProfileTab = () => {
           style={{
             // borderWidth: 1,
             width: "100%",
-            height: height/6,
+            height: height / 6,
             paddingTop: "12%",
             backgroundColor: "white",
             shadowColor: "black",
@@ -25,19 +25,29 @@ const ProfileTab = () => {
             justifyContent: "center",
             alignItems: "center",
             position: "absolute",
-            top:0,
-            zIndex:1
+            top: 0,
+            zIndex: 1,
           }}
         >
           <Header
             onPress1={() => {}}
             onPress2={() => {}}
-            style={{ width: "90%"}}
+            style={{ width: "90%" }}
           />
-          <Text>ProfileTab</Text>
         </View>
-        <View style={{height:'100%',backgroundColor:'red',width:'100%',paddingTop:height/6}}>
-<Text>asd</Text>
+        <View
+          style={{
+            height: "100%",
+            backgroundColor: "white",
+            width: "100%",
+            paddingTop: (height / 6),
+            paddingHorizontal:16,
+            marginTop:10,
+            justifyContent:'center',
+            alignItems:'center'
+          }}
+        >
+          <Text>Profile Tab</Text>
         </View>
       </View>
     </SafeAreaView>
