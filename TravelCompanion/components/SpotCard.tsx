@@ -53,7 +53,7 @@ const SpotCard = ({ selected, onPress }: SpotCardData) => {
         >
           <LinearGradient
             style={{ borderRadius: 30 }}
-            colors={Colors.GreenGradient}
+            colors={Colors.SecondaryCardGradient}
             start={{x:0,y:0}}
             end={{x:1,y:1}}
           >
@@ -82,7 +82,7 @@ const SpotCard = ({ selected, onPress }: SpotCardData) => {
         >
           <LinearGradient
             style={{ borderRadius: 30 }}
-            colors={Colors.GreenGradient}
+            colors={Colors.SecondaryCardGradient}
             start={{x:0,y:0}}
             end={{x:1,y:1}}
           >
