@@ -1,18 +1,34 @@
-import { Stack } from "expo-router";
+import {Stack, useNavigation} from "expo-router";
+import {Dimensions} from "react-native";
+import {Drawer} from "expo-router/drawer";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
+import {DrawerActions} from "@react-navigation/native";
+
+export const  {width:screenWidth,height:screenHeight} = Dimensions.get("window");
 
 export default function RootLayout() {
   return (
-    <Stack screenOptions={{headerShown:false,gestureEnabled:false}}>
+      <GestureHandlerRootView>
+
+    <Stack screenOptions={{headerShown:false,}}>
       <Stack.Screen
       name="index"
+      options={{title:'Landing'}}
       />
-       <Stack.Screen
-      name="loginPage"
+      <Stack.Screen
+          name="(auth)"
+          options={{title:'Home'}}
       />
-       <Stack.Screen
-      name="signupPage"
+      <Stack.Screen
+          name="loginPage"
+          options={{title:'Login'}}
+      />
+      <Stack.Screen
+          name="signupPage"
+          options={{title:'Signup'}}
       />
     </Stack>
-    
+
+      </GestureHandlerRootView>
   );
 }

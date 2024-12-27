@@ -28,14 +28,11 @@ const SignupPage = () => {
     Animated.spring(progress, { toValue: 1, useNativeDriver: false, tension:10 }).start();
   }, []);
   return (
-    <SafeAreaView style={[globalStyles.safeAreaView]} edges={[]}>
+    <SafeAreaView style={[globalStyles.container]} edges={[]}>
       <LinearGradient
         colors={Colors.PrimaryGradient}
-        style={[globalStyles.view]}
+        style={[globalStyles.mainView]}
       >
-        <View style={{width:'100%',height:40,position:'absolute',top:50,justifyContent:'center',alignItems:'flex-start',left:10}}>
-            <Ionicons onPress={()=>{router.back()}} size={30} name="chevron-back"/>
-          </View>
         <Animated.View style={{transform:[{scale:progress.interpolate({inputRange:[0,1], outputRange:[0,1]})}]}}>
           <SvgXml style={{ width: 150, height: 150 }} xml={svg}></SvgXml>
         </Animated.View>

@@ -2,7 +2,7 @@ import { Colors } from "@/assets/colors/colors";
 import { router, Tabs } from "expo-router";
 import LinearGradient from "react-native-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { View } from "react-native";
+import {Button, View} from "react-native";
 
 export default function AuthLayout() {
   return (
@@ -33,6 +33,7 @@ export default function AuthLayout() {
                 );
               },
             }}
+        initialParams={{ drawerNavigation: true }}
         name="index"
       />
       <Tabs.Screen
@@ -78,7 +79,7 @@ export default function AuthLayout() {
             );
           },
         }}
-        name="profile"
+        name="(profileScreens)"
       />
     </Tabs>
   );

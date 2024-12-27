@@ -112,7 +112,7 @@ const LargeSpotCard = ({ style, width, height }: LargeSpotCardProps) => {
           height: "100%",
           borderBottomLeftRadius: 40,
           borderBottomRightRadius: 40,
-          justifyContent: 'flex-end',
+          justifyContent: 'center',
           alignItems: "center",
         }}
         start={{ x: 0, y: 0.1 }}
@@ -125,7 +125,7 @@ const LargeSpotCard = ({ style, width, height }: LargeSpotCardProps) => {
             width: "100%",
             justifyContent: "center",
             alignItems: "center",
-            paddingTop: "10%",
+            // paddingTop: "10%",
             // borderWidth: 1,
           }}
         >

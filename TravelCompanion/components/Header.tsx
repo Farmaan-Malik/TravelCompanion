@@ -1,7 +1,8 @@
-import { View, Text } from 'react-native'
+import {View, Text, StyleSheet} from 'react-native'
 import React from 'react'
 import { Colors } from '@/assets/colors/colors'
 import OutlineIconButton from './OutlineIconButton'
+import {screenHeight, screenWidth} from "@/app/_layout";
 
 interface HeaderProps {
     onPress1: () => void;
@@ -14,23 +15,14 @@ const Header = ({onPress1,onPress2,style={}}:HeaderProps) => {
   return (
     <View
             style={[
-              {
-                width: "100%",
-                height: 'auto',
-                display: "flex",
-                flexDirection: "row",
-                backgroundColor: "white",
-                alignItems: "center",
-                justifyContent: "space-around",
-                paddingVertical:10,
-               ...style
-              },
+              styles.container,
+                {...style}
             ]}
           >
             <OutlineIconButton
               style={{ borderRadius: 8 }}
               onPress={() => {
-                onPress1
+                onPress1()
               }}
             />
             <View style={{ display: "flex", flexDirection: "row" }}>
@@ -56,7 +48,7 @@ const Header = ({onPress1,onPress2,style={}}:HeaderProps) => {
           <OutlineIconButton
               style={{ borderRadius: 8 }}
               onPress={() => {
-               onPress2
+               onPress2()
               }}
               iconName='search-outline'
             />
@@ -65,3 +57,19 @@ const Header = ({onPress1,onPress2,style={}}:HeaderProps) => {
 }
 
 export default Header
+
+const styles = StyleSheet.create({
+    container: {
+        width:screenWidth,
+        height: screenHeight/7,
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: "white",
+        alignItems: "center",
+        paddingTop: 50,
+        justifyContent: "space-around",
+        paddingBottom:15,
+
+}
+}
+)

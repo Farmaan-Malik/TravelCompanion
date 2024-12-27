@@ -21,17 +21,15 @@ const LoginPage = () => {
     }).start();
   }, []);
   return (
-    <SafeAreaView style={globalStyles.safeAreaView} edges={[]}>
+    <SafeAreaView style={globalStyles.container} edges={[]}>
+        <View style={[globalStyles.mainView]}>
       <LinearGradient
-        style={[globalStyles.view,{display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'baseline'}]}
+        style={[styles.gradient]}
         colors={Colors.PrimaryGradient}
         start={{ x: 0, y: 1 }}
         end={{ x: 1, y: 1 }}
       >
-          <View style={{width:'100%',height:40,position:'absolute',top:50,justifyContent:'center',alignItems:'flex-start',left:10,zIndex:1}}>
-            <Ionicons onPress={()=>{router.back()}} size={30} name="chevron-back"/>
-          </View>
-         
+
         <Animated.View
           style={{
             flex:1,
@@ -54,7 +52,7 @@ const LoginPage = () => {
             ],
           }}
         >
-         
+
           <Animated.Text
             style={{
               fontSize: 20,
@@ -70,19 +68,26 @@ const LoginPage = () => {
             marginBottom:10
 
           }} />
-          <CustomTextInput label="Enter password" 
+          <CustomTextInput label="Enter password"
            style={{
             width: "80%",
             height: "7%",
             marginBottom:30
           }}/>
-          <CustomButton 
+          <CustomButton
           colorArray={['black','black']}
           label='Login' onPress={()=>{router.replace('/(auth)')}}/>
         </Animated.View>
       </LinearGradient>
+        </View>
     </SafeAreaView>
   );
 };
 
 export default LoginPage;
+
+const styles = {
+    gradient:{
+        flex:1
+    }
+}

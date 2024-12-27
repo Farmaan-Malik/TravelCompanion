@@ -5,7 +5,7 @@ import { globalStyles } from '@/assets/styles/globalStyles'
 
 const TagsTab = () => {
   return (
-    <SafeAreaView edges={[]} style={globalStyles.safeAreaView}>
+    <SafeAreaView edges={[]} style={globalStyles.container}>
       <Text>TagsTab</Text>
     </SafeAreaView>
   )

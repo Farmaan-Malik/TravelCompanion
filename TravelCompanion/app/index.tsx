@@ -1,10 +1,10 @@
-import { Text, View, Image, ImageBackground, Animated } from "react-native";
+import {Text, View, Image, ImageBackground, Animated, Button} from "react-native";
 import { useFonts } from "expo-font";
 import { Colors } from "@/assets/colors/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "@/components/CustomButton";
 import CustomOutlineButton from "@/components/CustomOutlineButton";
-import { router } from "expo-router";
+import {router} from "expo-router";
 import MaskedText from "@/components/MaskedText";
 import { globalStyles } from "@/assets/styles/globalStyles";
 import { useEffect, useRef } from "react";
@@ -22,9 +22,8 @@ export default function Index() {
     Animated.spring(scale, { toValue: 1, useNativeDriver: false }).start();
   }, []);
 
-
   return (
-    <SafeAreaView edges={[]} style={[globalStyles.safeAreaView]}>
+    <SafeAreaView edges={[]} style={[globalStyles.container]}>
       <ImageBackground
         style={{
           flex: 1,
@@ -98,12 +97,12 @@ export default function Index() {
           <CustomButton 
           label="Login"
             onPress={() => {
-                router.navigate("/loginPage");
+                router.navigate('/loginPage');
             }}
           />
           <CustomOutlineButton
             onPress={() => {
-              router.navigate("/signupPage");
+              router.navigate('/signupPage');
             }}
           />
         </Animated.View>

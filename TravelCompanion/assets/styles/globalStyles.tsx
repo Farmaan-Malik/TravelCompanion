@@ -1,17 +1,20 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from "react-native";
+import {screenWidth} from "@/app/_layout";
 
-export const globalStyles = StyleSheet.create({
-    safeAreaView:{
-        flex: 1,
-        justifyContent: "center",
-        backgroundColor: "white",
-        alignItems:'center',
-    },
-    view:{
-        display:'flex',
-        width:'100%',
+export const  globalStyles = StyleSheet.create({
+    container: {
+        // flex: 1,
+        width:screenWidth,
         height:'100%',
-        justifyContent:'center',
-        alignItems:'center',
-    }
-})
+        backgroundColor: '#F5FCFF',
+        // padding:8,
+        // borderWidth:1,
+        alignItems: 'center',
+    },
+    mainView: {
+        flex: 1,
+        backgroundColor: '#F5FCFF',
+        width:screenWidth,
+        justifyContent:'flex-start',
+    },
+});
