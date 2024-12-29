@@ -15,10 +15,8 @@ const LargeSpotCard = ({ style, width, height }: LargeSpotCardProps) => {
       style={{
         borderBottomLeftRadius: 40,
         borderBottomRightRadius: 40,
-        // borderWidth: 1,
         width: `${width}%`,
         height: `${height}%`,
-        // zIndex: 3,
         ...style,
       }}
     >
@@ -30,7 +28,6 @@ const LargeSpotCard = ({ style, width, height }: LargeSpotCardProps) => {
           zIndex: 2,
           bottom: "-4%",
           left: "12%",
-          // borderWidth: 2,
         }}
       >
         <LinearGradient
@@ -47,16 +44,10 @@ const LargeSpotCard = ({ style, width, height }: LargeSpotCardProps) => {
         >
           <Text
             style={{
-              fontFamily: "Nunito",
-              fontStyle: "italic",
+              fontFamily: "Nunito-BoldItalic",
               color: "white",
-              // paddingHorizontal: 10,
-              // borderWidth: 1,
               borderRadius: 50,
               textAlign: "center",
-              // width:'100%',
-              // height:'100%',
-              fontWeight: "700",
               fontSize: 16,
             }}
           >
@@ -72,7 +63,6 @@ const LargeSpotCard = ({ style, width, height }: LargeSpotCardProps) => {
           zIndex: 2,
           bottom: "-4%",
           left: "45%",
-          // borderWidth: 2,
         }}
       >
         <LinearGradient
@@ -89,16 +79,10 @@ const LargeSpotCard = ({ style, width, height }: LargeSpotCardProps) => {
         >
           <Text
             style={{
-              fontFamily: "Nunito",
-              fontStyle: "italic",
+              fontFamily: "Nunito-BoldItalic",
               color: "white",
-              // paddingHorizontal: 10,
-              // borderWidth: 1,
               borderRadius: 50,
               textAlign: "center",
-              // width:'100%',
-              // height:'100%',
-              fontWeight: "700",
               fontSize: 16,
             }}
           >
@@ -125,20 +109,16 @@ const LargeSpotCard = ({ style, width, height }: LargeSpotCardProps) => {
             width: "100%",
             justifyContent: "center",
             alignItems: "center",
-            // paddingTop: "10%",
-            // borderWidth: 1,
           }}
         >
           <Text
             style={{
-              fontFamily: "Nunito",
+              fontFamily: "Nunito-Regular",
               paddingHorizontal: 20,
               color: "white",
-              fontSize: 18,
+              fontSize: 16,
               zIndex: 4,
-              fontWeight:'600',
               marginBottom:10,
-              // borderWidth: 1,
             }}
             numberOfLines={2}
           >
@@ -147,12 +127,9 @@ const LargeSpotCard = ({ style, width, height }: LargeSpotCardProps) => {
           </Text>
           <Image
             style={{
-              // position: "absolute",
-              // bottom: "8%",
               width: Dimensions.get('window').width /1.2,
               height: Dimensions.get('window').width /1.2,
               borderRadius: 20,
-              // borderWidth:1
             }}
             source={require("@/assets/images/place1.png")}
           />

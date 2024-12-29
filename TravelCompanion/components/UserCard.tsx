@@ -40,10 +40,8 @@ const UserCard = () => {
         <Text
           style={{
             color: "white",
-            fontFamily: "Nunito",
-            fontWeight: "700",
+            fontFamily: "Nunito-Bold",
             width: (width - 150) / 3,
-            // borderWidth: 1,
             textAlign: "center",
             marginTop:10
           }}
@@ -55,8 +53,7 @@ const UserCard = () => {
         height={10}
         textStyle={{
           fontStyle: "normal",
-          fontWeight: "700",
-          fontFamily: "Nunito",
+          fontFamily: "Nunito-Bold",
         }}
         fontSize={14}
         colorArray={Colors.PrimaryGradient}

@@ -10,11 +10,6 @@ import { globalStyles } from "@/assets/styles/globalStyles";
 import { useEffect, useRef } from "react";
 
 export default function Index() {
-  const [fonts] = useFonts({
-    "Nova-Oval": require("@/assets/fonts/NovaOval-Regular.ttf"),
-    "Nunito": require("@/assets/fonts/Nunito.ttf"),
-    "NunitoItalic": require("@/assets/fonts/Nunito-Italic.ttf"),
-  });
 
   const scale = useRef(new Animated.Value(0)).current;
 
@@ -71,7 +66,7 @@ export default function Index() {
             </Text>
           </View>
           <Text
-            style={{ paddingTop: 10, fontSize: 16, fontFamily: "NunitoItalic" }}
+            style={{ paddingTop: 10, fontSize: 16, fontFamily: "Nunito-BoldItalic" }}
           >
             Travel Smarter, Explore Further.
           </Text>
@@ -94,7 +89,7 @@ export default function Index() {
           }}
         >
           <MaskedText text="Explore the World, Together." fontSize={14} />
-          <CustomButton 
+          <CustomButton
           label="Login"
             onPress={() => {
                 router.navigate('/loginPage');

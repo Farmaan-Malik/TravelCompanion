@@ -59,11 +59,9 @@ const SpotCard = ({ selected, onPress }: SpotCardData) => {
           >
             <Text
               style={{
-                fontFamily: "Nunito",
-                fontStyle: "italic",
+                fontFamily: "Nunito-BoldItalic",
                 color: "white",
                 paddingHorizontal: 10,
-                // borderWidth: 1,
                 borderRadius: 50,
               }}
             >
@@ -88,11 +86,9 @@ const SpotCard = ({ selected, onPress }: SpotCardData) => {
           >
             <Text
               style={{
-                fontFamily: "Nunito",
-                fontStyle: "italic",
+                fontFamily: "Nunito-BoldItalic",
                 color: "white",
                 paddingHorizontal: 20,
-                // borderWidth: 1,
                 borderRadius: 50,
               }}
             >
@@ -103,7 +99,6 @@ const SpotCard = ({ selected, onPress }: SpotCardData) => {
         <View
           style={{
             width: "100%",
-            // borderWidth: 1,
             height: "auto",
             marginHorizontal: 20,
           }}
@@ -112,8 +107,7 @@ const SpotCard = ({ selected, onPress }: SpotCardData) => {
             style={{
               marginHorizontal: 20,
               color: "white",
-              fontWeight: 700,
-              fontFamily: "Nunito",
+              fontFamily: "Nunito-Bold",
               paddingTop:10
             }}
             numberOfLines={2}

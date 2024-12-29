@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet, Animated, StyleProp, ViewStyle} from 'react-native'
 import React from 'react'
 import { Colors } from '@/assets/colors/colors'
 import OutlineIconButton from './OutlineIconButton'
@@ -7,16 +7,16 @@ import {screenHeight, screenWidth} from "@/app/_layout";
 interface HeaderProps {
     onPress1: () => void;
     onPress2: () => void;
-    style?: object;
+    style?: StyleProp<ViewStyle>;
   }
 
 
 const Header = ({onPress1,onPress2,style={}}:HeaderProps) => {
   return (
-    <View
+    <Animated.View
             style={[
               styles.container,
-                {...style}
+                style
             ]}
           >
             <OutlineIconButton
@@ -52,7 +52,7 @@ const Header = ({onPress1,onPress2,style={}}:HeaderProps) => {
               }}
               iconName='search-outline'
             />
-          </View>
+          </Animated.View>
   )
 }
 
@@ -61,14 +61,14 @@ export default Header
 const styles = StyleSheet.create({
     container: {
         width:screenWidth,
-        height: screenHeight/7,
+        height: screenHeight/9,
         display: "flex",
         flexDirection: "row",
         backgroundColor: "white",
         alignItems: "center",
-        paddingTop: 50,
+        // paddingTop: 50,
         justifyContent: "space-around",
-        paddingBottom:15,
+        // paddingBottom:15,
 
 }
 }

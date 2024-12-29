@@ -32,8 +32,8 @@ const MaskedText = ({
             style={{
               fontSize: fontSize,
               fontWeight: "semibold",
-              fontStyle: "italic",
-              ...textStyle
+                fontFamily:'Nunito-BoldItalic',
+                ...textStyle
             }}
           >
             {text}

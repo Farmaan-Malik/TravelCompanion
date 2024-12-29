@@ -1,5 +1,15 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Image} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    TextInput,
+    KeyboardAvoidingView,
+    Platform,
+    Image,
+    ScrollView, Animated
+} from 'react-native';
 // import {useStore} from "@/utils/utils/utils";
 import {createAvatar} from "@dicebear/core";
 import {lorelei} from "@dicebear/collection";
@@ -9,73 +19,119 @@ import {globalStyles} from "@/assets/styles/globalStyles";
 // import Switch from "@/components/switch";
 import {router} from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import {useStore} from "@/utils/store";
+import CustomTextInput from "@/components/CustomTextInput";
+import CustomButton from "@/components/CustomButton";
+import CustomOutlineButton from "@/components/CustomOutlineButton";
+import EditButton from "@/components/EditButton";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import {Colors} from "@/assets/colors/colors";
+import {screenHeight} from "@/app/_layout";
 
 const EditProfile = () => {
-    // const {setUsername, setSvg, username: currentUser, age, gender, setGender,setAge} = useStore(state => state)
-    const [formName, setFormName] = useState<string>('');
-    const [formAge, setFormAge] = useState<string>('');
-    const [formGender, setFormGender] = useState<string>('')
-
+    const {
+        setUsername,
+        fullname,
+        setFullname,
+        setSvg,
+        username,
+        age,
+        gender,
+        setGender,
+        setAge
+    } = useStore(state => state)
+    const [formName, setFormName] = useState<string>(username);
+    const [formFullname, setFormFullname] = useState<string>(fullname);
+    const [formAge, setFormAge] = useState<string>(age);
+    const [formGender, setFormGender] = useState<string>(gender)
+    const firstRef = useRef<TextInput>(null)
+    const secondRef = useRef<TextInput>(null)
+    const thirdRef = useRef<TextInput>(null)
     const avatar = createAvatar(lorelei, {
-        seed: formName
+        seed: formName,
+        backgroundColor: ['8EB8E5', '9184EE'],
+        backgroundType: ['gradientLinear'],
+        backgroundRotation: [0, 180],
+        freckles: ["variant01"],
+        frecklesProbability: 50,
+        glasses: ["variant01", "variant02", "variant03", "variant04", "variant05"],
+        glassesProbability: 20,
+        hairAccessories: ["flowers"],
+        hairAccessoriesProbability: 30,
+        hairAccessoriesColor: ['0f0f0f']
     });
     const svg = avatar.toString()
+    const submit = async () => {
+        setUsername(formName)
+        setSvg(svg)
+        setAge(formAge)
+        setFullname(formFullname)
+    }
+    const anim = useRef(new Animated.Value(0)).current
+    useEffect(() => {
+        Animated.spring(anim,{toValue:1,useNativeDriver: true,stiffness:60}).start()
+    })
     return (
-        <SafeAreaView style={[globalStyles.container]}>
-            <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-                <View style={[globalStyles.mainView]}>
-                    {/*{Platform.OS === 'ios' ? <SvgXml style={[styles.svg]} xml={svg}/> : */}
-                    {/*    <Image style={[styles.svg,{borderWidth: 0}]} source={require('@/assets/images/profilePlaceholder.png')}/>}*/}
-                    <Text style={[styles.text]}> Username:</Text>
-                    <TextInput style={[styles.input]} value={formName}
-                               onChangeText={(value) => setFormName(value)}/>
-                    <Text style={[styles.text]}> Age:</Text>
-                    <TextInput keyboardType={'numeric'} style={[styles.input]} value={formAge}
-                               onChangeText={(value) => setFormAge(value)}/>
+        <SafeAreaView edges={[]} style={[globalStyles.container]}>
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                                  style={[globalStyles.mainView, {justifyContent: 'flex-end', marginTop: 50}]}>
+                <Ionicons onPress={() => router.back()} size={30} style={[styles.back]} name={'close'}/>
+                <Animated.ScrollView style={[{transform:[{translateY:anim.interpolate({inputRange:[0,1],outputRange:[screenHeight,0]})}]}]}>
+                    <View style={[styles.svgContainer]}>
+                        <SvgXml style={[styles.svg,]} xml={svg}/>
+                    </View>
+                    <Text style={[styles.headerText]}>Full Name:</Text>
+                    <CustomTextInput
+                        value={formFullname}
+                        ref={firstRef} onSubmitEditing={() => {
+                        // @ts-ignore
+                        secondRef.current.focus()
+                    }}
+                        returnKeyType={'next'} containerStyle={{width: '80%', alignSelf: 'center'}}
+                        placeholder={'Enter new Full name'}
+                        onChangeText={text => setFormFullname(text)}/>
+                    <Text style={[styles.headerText]}>Username:</Text>
+                    <CustomTextInput
+                        value={formName}
+                        onSubmitEditing={() => {
+                            // @ts-ignore
+                            thirdRef.current.focus()
+                        }} returnKeyType={'next'}
+                        ref={secondRef} containerStyle={{width: '80%', alignSelf: 'center'}}
+                        placeholder={'Enter new Username'}
+                        onChangeText={text => setFormName(text)}/>
+                    <Text style={[styles.headerText]}>Age:</Text>
+                    <CustomTextInput
+                        value={formAge}
+                        ref={thirdRef} keyboardType={'number-pad'}
+                        containerStyle={{width: '80%', alignSelf: 'center'}} placeholder={'Enter new Age'}
+                        onChangeText={text => setFormAge(text)}/>
+                    <Text style={[styles.headerText]}>Gender:</Text>
+                    <View style={[styles.touchableRow]}>
+                        <TouchableOpacity onPress={() => {
+                            setGender("Male")
+                        }} style={[styles.touchable, {backgroundColor: gender == 'Male' ? Colors.Blue : 'white'}]}>
+                            <Text style={[styles.touchableText, {color: gender == 'Male' ? 'white' : 'black'}]}>
+                                Male
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            setGender("Female")
+                        }}
+                                          style={[styles.touchable, {backgroundColor: gender == 'Female' ? Colors.Blue : 'white'}]}>
+                            <Text style={[styles.touchableText, {color: gender == 'Female' ? 'white' : 'black'}]}>
+                                Female
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <EditButton style={{width: '80%', marginTop: 50, paddingVertical: 8, alignSelf: 'center'}}
+                                title={'Submit'} textStyle={{fontSize: 18,}}
+                                onPress={async () => {
+                                    await submit().then(router.back)
 
-                    <Text style={[styles.text]}> Gender:</Text>
-                    <View style={[styles.switchContainer]}>
-                        {/*<Switch onPress={() => {*/}
-                        {/*    setFormGender('Male')*/}
-                        {/*}} selected={formGender == 'Male'} label={'Male'}/>*/}
-                        {/*<Switch onPress={() => {*/}
-                        {/*    setFormGender('Female')*/}
-                        {/*}} selected={formGender == "Female"} label={'Female'}/>*/}
-                    </View>
-                    <View style={[{flex: 1, width: '90%',gap:30, justifyContent: 'center', alignItems: 'center',flexDirection:'row'}]}>
-                        <TouchableOpacity style={[styles.touchable]} onPress={() => {
-                            router.replace('/')
-                        }}>
-                            <MaterialIcons color={'tomato'} size={20} name={'cancel'}/>
-                            <Text style={[{
-                                fontSize: 15,
-                                fontFamily: 'Nunito',
-                                fontWeight: '800',
-                                alignSelf: 'center',
-                                padding: 8,
-                                color:'tomato'
-                            }]}>Cancel</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.touchable,{backgroundColor: '#90EE90'}]} onPress={() => {
-                            // setUsername(formName)
-                            // setGender(formGender)
-                            // setAge(formAge)
-                            // setSvg(svg)
-                            setTimeout(()=>{
-                                router.replace('/(auth)/(profileScreens)')
-                            },500)
-                        }}>
-                            <Text style={[{
-                                fontSize: 15,
-                                fontFamily: 'Nunito',
-                                fontWeight: '900',
-                                alignSelf: 'center',
-                                padding: 8,
-                                color:'white'
-                            }]}>Submit</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                                }}
+                    />
+                </Animated.ScrollView>
             </KeyboardAvoidingView>
         </SafeAreaView>
     );
@@ -84,53 +140,50 @@ const EditProfile = () => {
 export default EditProfile;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 30
-    },
     svg: {
+        width: 130,
+        height: 130,
+        alignSelf: 'center'
+    },
+    svgContainer: {
+        overflow: 'hidden',
         width: 130,
         height: 130,
         borderWidth: StyleSheet.hairlineWidth,
         borderRadius: 100,
-        marginTop: 30,
+        alignSelf: 'center'
     },
-    input: {
-        borderWidth: StyleSheet.hairlineWidth,
-        width: '80%',
-        paddingVertical: 10,
-        borderRadius: 10,
-        paddingHorizontal: 12,
-        fontSize: 18,
-        backgroundColor:'white',
-    },
-    text: {
+    headerText: {
         fontSize: 15,
-        fontFamily: 'Nunito',
-        fontWeight: '600',
+        fontFamily: 'Nunito-ExtraBold',
         alignSelf: 'flex-start',
         marginLeft: '10%',
         marginVertical: 8,
     },
-    switchContainer: {
+    back: {
+        marginLeft: 20,
+    },
+    touchableRow: {
         flexDirection: 'row',
-        width: '80%',
-        gap: 10
+        flex: 1,
+        justifyContent: 'space-around',
+        gap: 10,
+        paddingHorizontal: 26,
+        paddingVertical:10
     },
     touchable: {
-        backgroundColor: 'white',
-        flex:1,
-        borderRadius: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding:10,
-        shadowColor: '#000',
-        shadowOffset:{width: 0, height: 2},
-        shadowOpacity: 0.2,
-        flexDirection:'row',
-        elevation:5,
+        flex: 1,
+        borderRadius: 16,
+        shadowColor: Colors.Blue,
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.4,
+        shadowRadius: 4,
+        elevation: 8,
+    },
+    touchableText: {
+        textAlign: 'center',
+        fontFamily: 'Nunito-SemiBold',
+        padding: 12,
     }
 
 });

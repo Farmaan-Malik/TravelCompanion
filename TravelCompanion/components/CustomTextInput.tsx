@@ -1,49 +1,64 @@
-import { View, Text, TextInput } from "react-native";
-import React, { useRef, useState } from "react";
+import {
+    View,
+    Text,
+    TextInput,
+    KeyboardTypeOptions,
+    TextInputProps,
+    StyleProp,
+    ViewStyle,
+    TextStyle
+} from "react-native";
+import React, {forwardRef, useRef, useState} from "react";
+import {Colors} from "@/assets/colors/colors";
 
-const CustomTextInput = ({
-  label = "",
-  style = {},
-  onChangeText = (value: string) => {},
-}) => {
-  const [text, setText] = useState("");
-  return (
-    <View
-      style={{
-        width: "100%",
-        height: "10%",
-        margin: 5,
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 20,
-        shadowColor: "black",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 1,
-        elevation: 8,
-        overflow: "hidden",
-        ...style,
-      }}
-    >
-      <TextInput
-        placeholder={label}
-        style={{
-          backgroundColor: "white",
-          width: "100%",
-          height: "100%",
-          paddingHorizontal: 10,
-          overflow:'scroll'
-        }}
-        autoCapitalize='none'
-        autoCorrect={false}
-        value={text}
-        onChangeText={(value) => {
-          setText(value);
-          onChangeText(value);
-        }}
-      />
-    </View>
-  );
-};
+interface Props extends TextInputProps {
+    placeholder: string,
+    keyboardType?: KeyboardTypeOptions,
+    onChangeText: (text: string) => void,
+    style?:StyleProp<TextStyle>,
+    containerStyle?:StyleProp<ViewStyle>,
+}
+
+
+const CustomTextInput= forwardRef<TextInput, Props>((props, ref) => {
+    return (
+        <View
+            style={[{
+                height: 50,
+                margin: 5,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 80,
+                shadowColor: Colors.Blue,
+                shadowOffset: {width: 0, height: 2},
+                shadowOpacity: 0.4,
+                shadowRadius: 4,
+                elevation: 8,
+            },
+            props.containerStyle]}
+        >
+            <TextInput
+                style={[{
+                    backgroundColor: "white",
+                    width: "100%",
+                    height: "100%",
+                    paddingHorizontal: 20,
+                    overflow: 'scroll',
+                    borderRadius: 80,
+                    fontFamily:'Nunito-Regular'
+                },
+                props.style
+                ]}
+                {...props}
+                ref={ref}
+                autoCapitalize='none'
+                autoCorrect={false}
+                onChangeText={(value) => {
+                    props.onChangeText(value);
+                }}
+            />
+        </View>
+    );
+});
 
 export default CustomTextInput;

@@ -27,7 +27,6 @@ export default function AuthLayout() {
                   <Ionicons
                     color={"white"}
                     name={props.focused ? "home" : "home-outline"}
-                    // style={props.focused ? { transform:[{ scale:1.1}]} : {}}
                     size={25}
                   ></Ionicons>
                 );
@@ -43,13 +42,12 @@ export default function AuthLayout() {
               <Ionicons
                 color={"white"}
                 name={props.focused ? "people" : "people-outline"}
-                // style={props.focused ? { transform:[{ scale:1.1}]} : {}}
                 size={25}
               ></Ionicons>
             );
           },
         }}
-        name="groups"
+        name="(search)"
       />
       <Tabs.Screen
         options={{
@@ -58,13 +56,12 @@ export default function AuthLayout() {
               <Ionicons
                 color={"white"}
                 name={props.focused ? "chatbubbles" : "chatbubbles-outline"}
-                // style={props.focused ? { transform:[{ scale:1.1}]} : {}}
                 size={25}
               ></Ionicons>
             );
           },
         }}
-        name="tags"
+        name="message"
       />
       <Tabs.Screen
         options={{
@@ -73,7 +70,6 @@ export default function AuthLayout() {
               <Ionicons
                 color={"white"}
                 name={props.focused ? "person" : "person-outline"}
-                // style={props.focused ? { transform:[{ scale:1.1}]} : {}}
                 size={25}
               ></Ionicons>
             );

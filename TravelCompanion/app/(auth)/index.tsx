@@ -5,7 +5,7 @@ import {
     ScrollView,
     Dimensions,
     Animated,
-    StyleSheet
+    StyleSheet, FlatList
 } from "react-native";
 import React, {useEffect, useRef, useState} from "react";
 import {SafeAreaView} from "react-native-safe-area-context";
@@ -33,7 +33,8 @@ const Index = () => {
     let name = username;
     const avatar = createAvatar(lorelei, {seed: "farmaan Malik "});
     const newSvg = svg;
-    const scrollViewRef = useRef<ScrollView>(null);
+    const arr = ['sada','asdad','asdadsa','sadasdasda','asdsahgjdghjsa']
+    const scrollViewRef = useRef<FlatList>(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [showDetails, toggleShowDetails] = useState(false);
     // Function to handle scroll event
@@ -54,7 +55,7 @@ const Index = () => {
 
     return (
         <SafeAreaView
-            edges={[]}
+            edges={['top']}
             style={[
                 globalStyles.container,
             ]}
@@ -115,15 +116,15 @@ const Index = () => {
                                     ]}
                                 >
                                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                        <Text style={{fontSize: 20, fontFamily: "Nunito"}}>
+                                        <Text style={{fontSize: 20, fontFamily: "Nunito-Regular"}}>
                                             Hey{' '}
                                         </Text>
-                                        <Text style={{fontWeight: "bold", fontSize: 25, fontFamily: 'Nunito'}}>
+                                        <Text style={{fontSize: 25, fontFamily: 'Nunito-ExtraBold'}}>
                                             {`${name}!`}
                                         </Text>
                                     </View>
 
-                                    <Text style={{fontSize: 15, fontFamily: "Nunito"}}>
+                                    <Text style={{fontSize: 15, fontFamily: "Nunito-ExtraLight"}}>
                                         Where is your next trip going to be?
                                     </Text>
                                 </Animated.View>
@@ -170,28 +171,26 @@ const Index = () => {
                                 >
                                     Near your location
                                 </Text>
-                                <ScrollView
+                                <FlatList
                                     ref={scrollViewRef}
                                     horizontal
                                     onScroll={handleScroll}
+                                    data={arr}
                                     scrollEventThrottle={16}
                                     showsHorizontalScrollIndicator={false}
+                                    renderItem={({index})=>
+                                        <SpotCard
+                                        onPress={() => {
+                                            setSelectedIndex(index);
+                                            toggleShowDetails(true);
+
+                                        }}
+                                        key={index}
+                                        selected={index === selectedIndex}
+                                    />}
                                     contentContainerStyle={[styles.horizontalScrollContent]}
                                 >
-                                    {Array(8)
-                                        .fill(null)
-                                        .map((_, index) => (
-                                            <SpotCard
-                                                onPress={() => {
-                                                    setSelectedIndex(index);
-                                                    toggleShowDetails(true);
-
-                                                }}
-                                                key={index}
-                                                selected={index === selectedIndex}
-                                            />
-                                        ))}
-                                </ScrollView>
+                                </FlatList>
                             </View>
                             <View
                                 style={[styles.sectionHeader]}
@@ -219,13 +218,11 @@ const Index = () => {
                     <>
                         <ScrollView
                             style={{
-                                // borderWidth: 1,
                                 width: "100%",
                             }}
                             contentContainerStyle={{
                                 width: "100%",
                                 paddingBottom: 200,
-                                // paddingTop: 20,
                                 alignItems: "center",
                             }}
                         >
@@ -237,7 +234,6 @@ const Index = () => {
                                     backgroundColor: "white",
                                     elevation: 5,
                                     shadowOffset: {width: 0, height: 10},
-                                    // height:Dimensions.get('window').height/2
                                 }}
                                 width={100}
                                 height={75}
@@ -257,18 +253,11 @@ const Index = () => {
                                     style={{
                                         height: 30,
                                         width: '22%',
-                                        // borderWidth: 2,
                                         justifyContent: "center",
                                         alignItems: "center",
                                         marginTop: "10%",
                                         backgroundColor: "#FF2800",
-                                        // borderWidth:1,
                                         borderRadius: 50,
-                                        // shadowColor: "black",
-                                        // shadowOpacity: 0.2,
-                                        // shadowRadius: 4,
-                                        // elevation: 5,
-                                        // shadowOffset: { width: 0, height: 8 },
                                         flexDirection: 'row'
                                     }}
                                     onPress={() => {
@@ -277,16 +266,10 @@ const Index = () => {
                                 >
                                     <Ionicons name="close-outline" color={"white"} size={20}/>
                                     <Text style={{
-                                        fontFamily: "Nunito",
-                                        // fontStyle: "italic",
+                                        fontFamily: "Nunito-Bold",
                                         color: "white",
-                                        // paddingHorizontal: 10,
-                                        // borderWidth: 1,
                                         borderRadius: 50,
                                         textAlign: "center",
-                                        // width:'100%',
-                                        // height:'100%',
-                                        fontWeight: "600",
                                         fontSize: 16,
                                     }}>Close</Text>
                                 </TouchableOpacity>
@@ -321,16 +304,10 @@ const Index = () => {
                                         <Ionicons color={"white"} size={20} name="walk-outline"/>
                                         <Text
                                             style={{
-                                                fontFamily: "Nunito",
-                                                // fontStyle: "italic",
+                                                fontFamily: "Nunito-SemiBold",
                                                 color: "white",
-                                                // paddingHorizontal: 10,
-                                                // borderWidth: 1,
                                                 borderRadius: 100,
                                                 textAlign: "center",
-                                                // width:'100%',
-                                                // height:'100%',
-                                                fontWeight: "600",
                                                 fontSize: 16,
                                             }}
                                         >
@@ -345,8 +322,7 @@ const Index = () => {
                                     width: "100%",
                                     marginTop: "5%",
                                     fontSize: 22,
-                                    fontFamily: "Nunito",
-                                    fontWeight: "600",
+                                    fontFamily: "Nunito-SemiBold",
                                     paddingHorizontal: 20,
                                     marginBottom: 5,
                                 }}
@@ -387,8 +363,7 @@ const Index = () => {
                                         padding: 10,
                                         width: "80%",
                                         color: "white",
-                                        fontFamily: "Nunito",
-                                        fontWeight: "600",
+                                        fontFamily: "Nunito-SemiBold",
                                     }}
                                 >
                                     Lorem ipsum, dolor sit amet consectetur adipisicing elit.
@@ -467,9 +442,8 @@ const styles = StyleSheet.create({
     },
     locationText: {
         color: "white",
-        fontFamily: "Nunito",
+        fontFamily: "Nunito-ExtraBold",
         fontSize: 14,
-        fontWeight: "bold",
         width: "80%",
     },
     horizontalScrollContainer: {
@@ -487,8 +461,7 @@ const styles = StyleSheet.create({
     sectionHeaderText:{
         textAlign: "left",
         fontSize: 21,
-        fontWeight: "600",
-        fontFamily: "Nunito",
+        fontFamily: "Nunito-Medium",
         flex:1
     },
     tripPartnerContainer: {

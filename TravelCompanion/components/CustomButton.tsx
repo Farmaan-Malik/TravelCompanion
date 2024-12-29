@@ -19,7 +19,8 @@ const CustomButton = ({
   const height = width / 3.5;
   return (
     <TouchableOpacity
-      onPress={onPress}
+        accessibilityHint={'Hii loduu'}
+        onPress={onPress}
       style={{
         marginVertical: 10,
         width: width,
@@ -41,7 +42,11 @@ const CustomButton = ({
         }}
         colors={colorArray}
       >
-        <Text style={{ fontWeight: "bold", color: "white", fontSize: 18 }}>
+        <Text style={{
+            color: "white",
+            fontSize: 18,
+            fontFamily:'Nunito-ExtraBold'
+        }}>
           {label}
         </Text>
       </LinearGradient>
