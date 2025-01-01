@@ -1,14 +1,14 @@
 import {
-    View,
-    Text,
-    Image,
+    ActivityIndicator, Alert,
     Animated,
-    Alert,
-    StyleSheet,
+    ImageBackground,
     KeyboardAvoidingView,
     Platform,
     ScrollView,
-    TouchableOpacity, ImageBackground
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from "react-native";
 import React, {useEffect, useRef, useState} from "react";
 import {SafeAreaView} from "react-native-safe-area-context";
@@ -17,20 +17,25 @@ import {createAvatar} from "@dicebear/core";
 import {lorelei} from "@dicebear/collection";
 import {SvgXml} from "react-native-svg";
 import CustomTextInput from "@/components/CustomTextInput";
-import CustomButton from "@/components/CustomButton";
-import LinearGradient from "react-native-linear-gradient";
 import {Colors} from "@/assets/colors/colors";
 import {router} from "expo-router";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 import EditButton from "@/components/EditButton";
+import {userRegistration} from "@/api/authApi";
+import {useStore} from "@/utils/store";
+import {loreliOptions} from "@/utils/loreliOptions";
 
 const SignupPage = () => {
-    const [fullName, setFullName] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const {setUsername, setAge, setGender, setSvg, setFullname} = useStore()
+    const [fullName, setFormFullname] = useState("");
+    const [username, setFormUsername] = useState("");
+    const [password, setFormPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [age, setAge] = useState("");
-    const [gender, setGender] = useState("");
+    const [age, setFormAge] = useState("");
+    const [gender, setFormGender] = useState("");
+    const [securePassword, setFormSecurePassword] = useState(true);
+    const [secureConfirmPassword, setFormSecureConfirmPassword] = useState(true);
+    const [isLoading, setLoading] = useState(false);
     const firstRef = useRef(null)
     const secondRef = useRef(null)
     const thirdRef = useRef(null)
@@ -39,158 +44,199 @@ const SignupPage = () => {
 
     const avatar = createAvatar(lorelei, {
         seed: username,
-        backgroundColor: ['8EB8E5', '9184EE'],
-        backgroundType: ['gradientLinear'],
-        backgroundRotation: [0, 180],
-        freckles: ["variant01"],
-        frecklesProbability: 50,
-        glasses: ["variant01", "variant02", "variant03", "variant04", "variant05"],
-        glassesProbability: 20,
-        hairAccessories: ["flowers"],
-        hairAccessoriesProbability: 30,
-        hairAccessoriesColor: ['0f0f0f']
+        ...loreliOptions
     });
-    console.log("Avatar", avatar)
     const svg = avatar.toString();
-    console.log("SVG", svg);
     const progress = useRef(new Animated.Value(0)).current;
+    const register = async () => {
+        const payload = {
+            fullName: fullName,
+            password: password,
+            age: age,
+            gender: gender,
+            svg: svg,
+            username: username,
+        }
+        return await userRegistration(payload)
+    }
 
     useEffect(() => {
         Animated.spring(progress, {toValue: 1, useNativeDriver: false, tension: 10}).start();
     }, []);
     return (
         <SafeAreaView style={[globalStyles.container]} edges={[]}>
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-
-                <ImageBackground
-                    source={require("../assets/images/wavesLogin.png")}
-                    style={[globalStyles.mainView, {justifyContent: 'center'}]}
-                >
-                    <View style={[styles.header]}>
-                        <Ionicons onPress={() => {
-                            router.back()
-                        }} color={'grey'} style={{marginLeft: 8}} size={30}
-                                  name={'close'}/>
-                        <Text style={[styles.headerText]}>Create an account</Text>
-                    </View>
-                    <ScrollView contentContainerStyle={{paddingTop: 30}}>
-                        <Animated.View style={[styles.svgContainer]}>
-                            <SvgXml style={[styles.svg]} xml={svg}></SvgXml>
-                        </Animated.View>
-                        <Text style={[styles.text]}>Username: </Text>
-                        <CustomTextInput
-                            placeholder="Set username"
-                            value={username}
-                            onChangeText={(value) => {
-                                setUsername(value);
-                            }}
-                            style={[styles.input]}
-                            containerStyle={[styles.inputContainer]}
-                            ref={firstRef}
-                            returnKeyType={'next'}
-                            onSubmitEditing={() => {
-                                // @ts-ignore
-                                secondRef.current.focus()
-                            }}
-                        />
-
-                        <Text style={[styles.text]}>Age: </Text>
-                        <CustomTextInput
-                            placeholder="Set age"
-                            value={age}
-                            onChangeText={(value) => {
-                                setAge(value);
-                            }}
-                            submitBehavior={'submit'}
-                            keyboardType={'numeric'}
-                            style={[styles.input]}
-                            containerStyle={[styles.inputContainer]}
-                            ref={secondRef}
-                            returnKeyType={'next'}
-                            onSubmitEditing={() => {
-                                // @ts-ignore
-                                thirdRef.current.focus()
-                            }}
-                        />
-                        <Text style={[styles.text]}>Gender: </Text>
-                        <View style={[styles.touchableRow]}>
-                            <TouchableOpacity onPress={() => {
-                                setGender("Male")
-                            }} style={[styles.touchable, {backgroundColor: gender == 'Male' ? Colors.Blue : 'white'}]}>
-                                <Text style={[styles.touchableText, {color: gender == 'Male' ? 'white' : 'black'}]}>
-                                    Male
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => {
-                                setGender("Female")
-                            }}
-                                              style={[styles.touchable, {backgroundColor: gender == 'Female' ? Colors.Blue : 'white'}]}>
-                                <Text style={[styles.touchableText, {color: gender == 'Female' ? 'white' : 'black'}]}>
-                                    Female
-                                </Text>
-                            </TouchableOpacity>
+            {!isLoading ?
+                <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                    <ImageBackground
+                        source={require("../assets/images/wavesLogin.png")}
+                        style={[globalStyles.mainView, {justifyContent: 'center'}]}
+                    >
+                        <View style={[styles.header]}>
+                            <Ionicons onPress={() => {
+                                router.back()
+                            }} color={'grey'} style={{marginLeft: 8}} size={30}
+                                      name={'close'}/>
+                            <Text style={[styles.headerText]}>Create an account</Text>
                         </View>
-                        <Text style={[styles.text]}>Full name: </Text>
-                        <CustomTextInput
-                            placeholder="Set full name"
-                            value={fullName}
-                            onChangeText={(value) => {
-                                setFullName(value);
-                            }}
-                            style={[styles.input]}
-                            containerStyle={[styles.inputContainer]}
-                            ref={thirdRef}
-                            returnKeyType={'next'}
-                            onSubmitEditing={() => {
-                                // @ts-ignore
-                                fourthRef.current.focus()
-                            }}
-                        />
+                        <ScrollView contentContainerStyle={{paddingTop: 30}}>
+                            <Animated.View style={[styles.svgContainer]}>
+                                <SvgXml style={[styles.svg]} xml={svg}></SvgXml>
+                            </Animated.View>
+                            <Text style={[styles.text]}>Username: </Text>
+                            <CustomTextInput
+                                placeholder="Set username"
+                                value={username}
+                                onChangeText={(value) => {
+                                    setFormUsername(value);
+                                }}
+                                style={[styles.input]}
+                                containerStyle={[styles.inputContainer]}
+                                ref={firstRef}
+                                returnKeyType={'next'}
+                                onSubmitEditing={() => {
+                                    // @ts-ignore
+                                    secondRef.current.focus()
+                                }}
+                            />
 
-                        <Text style={[styles.text]}>Password: </Text>
-                        <CustomTextInput
-                            placeholder="Set password"
-                            value={password}
-                            onChangeText={(value) => {
-                                setPassword(value);
-                            }}
-                            style={[styles.input]}
-                            containerStyle={[styles.inputContainer]}
-                            ref={fourthRef}
-                            returnKeyType={'next'}
-                            onSubmitEditing={() => {
-                                // @ts-ignore
-                                fifthRef.current.focus()
-                            }}
-                        />
-                        <Text style={[styles.text]}>Confirm Password: </Text>
-                        <CustomTextInput
-                            placeholder="Confirm password"
-                            value={confirmPassword}
-                            onChangeText={(value) => {
-                                setConfirmPassword(value);
-                            }}
-                            style={[styles.input]}
-                            containerStyle={[styles.inputContainer]}
-                            ref={fifthRef}
-                            returnKeyType={'done'}
-                        />
-                        <Animated.View style={{
-                            width: '60%',
-                            height: 60,
-                            borderWidth:1,
-                            marginTop: 20,
-                            justifyContent: 'center',
-                            borderRadius: 100,
-                            overflow: 'hidden',
-                            alignSelf: 'center',
-                            transform: [{translateY: progress.interpolate({inputRange: [0, 1], outputRange: [200, 0]})}]
-                        }}>
-                            <EditButton style={{backgroundColor:'black'}} title={'Submit'}/>
-                        </Animated.View>
-                    </ScrollView>
-                </ImageBackground>
-            </KeyboardAvoidingView>
+                            <Text style={[styles.text]}>Age: </Text>
+                            <CustomTextInput
+                                placeholder="Set age"
+                                value={age}
+                                onChangeText={(value) => {
+                                    setFormAge(value);
+                                }}
+                                submitBehavior={'submit'}
+                                keyboardType={'numeric'}
+                                style={[styles.input]}
+                                containerStyle={[styles.inputContainer]}
+                                ref={secondRef}
+                                returnKeyType={'next'}
+                                onSubmitEditing={() => {
+                                    // @ts-ignore
+                                    thirdRef.current.focus()
+                                }}
+                            />
+                            <Text style={[styles.text]}>Gender: </Text>
+                            <View style={[styles.touchableRow]}>
+                                <TouchableOpacity onPress={() => {
+                                    setFormGender("Male")
+                                }}
+                                                  style={[styles.touchable, {backgroundColor: gender == 'Male' ? Colors.Blue : 'white'}]}>
+                                    <Text style={[styles.touchableText, {color: gender == 'Male' ? 'white' : 'black'}]}>
+                                        Male
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => {
+                                    setFormGender("Female")
+                                }}
+                                                  style={[styles.touchable, {backgroundColor: gender == 'Female' ? Colors.Blue : 'white'}]}>
+                                    <Text
+                                        style={[styles.touchableText, {color: gender == 'Female' ? 'white' : 'black'}]}>
+                                        Female
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                            <Text style={[styles.text]}>Full name: </Text>
+                            <CustomTextInput
+                                placeholder="Set full name"
+                                value={fullName}
+                                onChangeText={(value) => {
+                                    setFormFullname(value);
+                                }}
+                                style={[styles.input]}
+                                containerStyle={[styles.inputContainer]}
+                                ref={thirdRef}
+                                returnKeyType={'next'}
+                                onSubmitEditing={() => {
+                                    // @ts-ignore
+                                    fourthRef.current.focus()
+                                }}
+                            />
+
+                            <Text style={[styles.text]}>Password: </Text>
+                            <CustomTextInput
+                                secureTextEntry={securePassword}
+                                placeholder="Set password"
+                                value={password}
+                                onChangeText={(value) => {
+                                    setFormPassword(value);
+                                }}
+                                style={[styles.input]}
+                                containerStyle={[styles.inputContainer]}
+                                ref={fourthRef}
+                                returnKeyType={'next'}
+                                onSubmitEditing={() => {
+                                    // @ts-ignore
+                                    fifthRef.current.focus()
+                                }}
+                                icon={true}
+                                onIconClick={() => setFormSecurePassword(!securePassword)}
+                                iconName={!securePassword ? 'eye' : 'eye-off'}
+                            />
+                            <Text style={[styles.text]}>Confirm Password: </Text>
+                            <CustomTextInput
+                                secureTextEntry={secureConfirmPassword}
+                                placeholder="Confirm password"
+                                value={confirmPassword}
+                                onChangeText={(value) => {
+                                    setConfirmPassword(value);
+                                }}
+                                style={[styles.input]}
+                                containerStyle={[styles.inputContainer]}
+                                ref={fifthRef}
+                                returnKeyType={'done'}
+                                icon={true}
+                                onIconClick={() => setFormSecureConfirmPassword(!secureConfirmPassword)}
+                                iconName={!secureConfirmPassword ? 'eye' : 'eye-off'}
+                            />
+                            <Animated.View style={{
+                                width: '60%',
+                                height: 60,
+                                borderWidth: 1,
+                                marginTop: 20,
+                                justifyContent: 'center',
+                                borderRadius: 100,
+                                overflow: 'hidden',
+                                alignSelf: 'center',
+                                transform: [{
+                                    translateY: progress.interpolate({
+                                        inputRange: [0, 1],
+                                        outputRange: [200, 0]
+                                    })
+                                }]
+                            }}>
+                                <EditButton onPress={async () => {
+                                    if (!username || !password || !confirmPassword || !fullName || !age || !gender) {
+                                        Alert.alert('fields are missing')
+                                    } else {
+                                        if (password === confirmPassword) {
+                                            setLoading(true);
+                                            const response = await register()
+                                            console.log("response : ", response)
+                                            if (response.success === true) {
+                                                setFullname(fullName)
+                                                setAge(age)
+                                                setGender(gender)
+                                                setSvg(svg)
+                                                setUsername(username)
+                                                router.navigate('/(auth)')
+                                            }else {
+                                                Alert.alert(response.message)
+                                            }
+                                                setLoading(false);
+                                        }else{
+                                            Alert.alert('passwords do not match')
+                                        }
+                                    }
+                                }} style={{backgroundColor: 'black'}} title={'Submit'}/>
+                            </Animated.View>
+                        </ScrollView>
+                    </ImageBackground>
+                </KeyboardAvoidingView>
+                : <View style={[globalStyles.mainView, {alignItems: 'center',justifyContent: 'center'}]}>
+                    <ActivityIndicator size={'large'} color={'black'}/>
+                </View>}
         </SafeAreaView>
     );
 };
@@ -203,12 +249,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 50
     },
-    headerText:{
+    headerText: {
         flex: 1,
         textAlign: 'center',
         fontFamily: 'Nunito-ExtraBold',
         fontSize: 30,
-        color:'black',
+        color: 'black',
     },
     svgContainer: {
         marginBottom: 15,
@@ -223,20 +269,19 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 100,
     },
-    input: {
-        borderWidth: StyleSheet.hairlineWidth,
-        paddingLeft: 16,
-        width: "90%",
-        height: "100%",
-        borderRadius: 20,
-        marginVertical: 20,
-        backgroundColor: 'white',
-    },
     text: {
         fontSize: 16,
         marginLeft: 16,
         fontFamily: 'Nunito-Medium',
         color: 'black'
+    },
+    input: {
+        paddingLeft: 16,
+        height: "100%",
+        marginVertical: 20,
+        flex: 1,
+        borderRadius: 20,
+
     },
     inputContainer: {
         shadowColor: Colors.Blue,
@@ -244,6 +289,10 @@ const styles = StyleSheet.create({
         shadowOpacity: .6,
         shadowRadius: 5,
         elevation: 10,
+        borderRadius: 20,
+        flex: 1,
+        borderWidth: StyleSheet.hairlineWidth,
+        backgroundColor: 'white',
     },
     touchableRow: {
         flexDirection: 'row',
@@ -251,7 +300,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         gap: 5,
         paddingHorizontal: 26,
-        paddingVertical:10
+        paddingVertical: 10
     },
     touchable: {
         flex: 1,

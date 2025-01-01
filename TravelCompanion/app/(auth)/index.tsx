@@ -14,24 +14,19 @@ import LinearGradient from "react-native-linear-gradient";
 import {Colors} from "@/assets/colors/colors";
 import Header from "@/components/Header";
 import {SvgXml} from "react-native-svg";
-import {lorelei} from "@dicebear/collection";
-import {createAvatar} from "@dicebear/core";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import SpotCard from "@/components/SpotCard";
 import UserCard from "@/components/UserCard";
 import LargeSpotCard from "@/components/LargeSpotCard";
 import { screenHeight, screenWidth} from "@/app/_layout";
 import OutlineButton from "@/components/OutlineButton";
-import {useNavigation} from "expo-router";
 import {useStore} from "@/utils/store";
 
 const Index = () => {
-    const navigation = useNavigation();
     const progress = useRef(new Animated.Value(0)).current;
     const exit = useRef(new Animated.Value(0)).current;
     const {svg, username} = useStore(state => state);
     let name = username;
-    const avatar = createAvatar(lorelei, {seed: "farmaan Malik "});
     const newSvg = svg;
     const arr = ['sada','asdad','asdadsa','sadasdasda','asdsahgjdghjsa']
     const scrollViewRef = useRef<FlatList>(null);
@@ -355,6 +350,7 @@ const Index = () => {
                                         borderWidth: 0.4,
                                         borderRadius: 50,
                                         borderColor: "white",
+                                        overflow:'hidden'
                                     }}
                                     xml={svg}
                                 />

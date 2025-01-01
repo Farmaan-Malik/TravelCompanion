@@ -1,20 +1,24 @@
-import {View, Text, StyleSheet, ScrollView} from 'react-native'
-import React from 'react'
+import {View, Text, StyleSheet, ScrollView, TextInput} from 'react-native'
+import React, {useRef} from 'react'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import {globalStyles} from '@/assets/styles/globalStyles'
-import Header from "@/components/Header";
 import CustomTextInput from "@/components/CustomTextInput";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import SearchCard from "@/components/searchCard";
 
 const GroupsTab = () => {
+    const ref = useRef<TextInput>(null)
     return (
         <SafeAreaView edges={['top']} style={[globalStyles.container]}>
             <View style={[styles.headerRow]}>
-                <CustomTextInput containerStyle={[styles.textInput]} placeholder={'Search User'} onChangeText={() => {
+                <CustomTextInput ref={ref} containerStyle={[styles.textInput]} placeholder={'Search User'} onChangeText={() => {
                 }}/>
-                {/*<Ionicons style={[styles.headerIcon]} name={'search'} size={30} color={'grey'}/>*/}
+                {
+                    ref.current?.focus() ?
+                        <Text style={[styles.headerText]}>Cancel</Text> :
                 <Text style={[styles.headerText]}>Search</Text>
+
+
+                }
             </View>
             <View style={[globalStyles.mainView]}>
                 <ScrollView contentContainerStyle={[styles.scrollContent]}>

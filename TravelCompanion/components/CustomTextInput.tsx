@@ -1,6 +1,5 @@
 import {
     View,
-    Text,
     TextInput,
     KeyboardTypeOptions,
     TextInputProps,
@@ -8,8 +7,9 @@ import {
     ViewStyle,
     TextStyle
 } from "react-native";
-import React, {forwardRef, useRef, useState} from "react";
+import React, {forwardRef} from "react";
 import {Colors} from "@/assets/colors/colors";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface Props extends TextInputProps {
     placeholder: string,
@@ -17,6 +17,9 @@ interface Props extends TextInputProps {
     onChangeText: (text: string) => void,
     style?:StyleProp<TextStyle>,
     containerStyle?:StyleProp<ViewStyle>,
+    icon?:boolean,
+    iconName?:keyof typeof Ionicons.glyphMap,
+    onIconClick?:() => void,
 }
 
 
@@ -34,6 +37,7 @@ const CustomTextInput= forwardRef<TextInput, Props>((props, ref) => {
                 shadowOpacity: 0.4,
                 shadowRadius: 4,
                 elevation: 8,
+                flexDirection:'row',
             },
             props.containerStyle]}
         >
@@ -57,6 +61,8 @@ const CustomTextInput= forwardRef<TextInput, Props>((props, ref) => {
                     props.onChangeText(value);
                 }}
             />
+            {props.icon &&
+            <Ionicons size={15} onPress={props.onIconClick} style={{marginRight:10}} name={props.iconName}/>}
         </View>
     );
 });

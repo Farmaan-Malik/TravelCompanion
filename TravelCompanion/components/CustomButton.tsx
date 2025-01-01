@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
+import { Text, TouchableOpacity, Dimensions } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import React from "react";
 import { Colors } from "@/assets/colors/colors";
@@ -19,7 +19,6 @@ const CustomButton = ({
   const height = width / 3.5;
   return (
     <TouchableOpacity
-        accessibilityHint={'Hii loduu'}
         onPress={onPress}
       style={{
         marginVertical: 10,

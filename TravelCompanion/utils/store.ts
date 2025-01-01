@@ -1,6 +1,7 @@
 import {create} from 'zustand'
 import {createAvatar} from "@dicebear/core";
-import {lorelei, openPeeps} from "@dicebear/collection";
+import {lorelei} from "@dicebear/collection";
+import {loreliOptions} from "@/utils/loreliOptions";
 
 type Store = {
     fullname: string,
@@ -17,19 +18,10 @@ type Store = {
 
 const avatar = createAvatar(lorelei, {
     seed: 'BrownShroom',
-    backgroundColor: ['8EB8E5', '9184EE'],
-    backgroundType: ['gradientLinear'],
-    backgroundRotation: [0, 180],
-    freckles: ["variant01"],
-    frecklesProbability: 50,
-    glasses: ["variant01", "variant02", "variant03", "variant04", "variant05"],
-    glassesProbability: 20,
-    hairAccessories: ["flowers"],
-    hairAccessoriesProbability: 30,
-    hairAccessoriesColor: ['0f0f0f']
+   ...loreliOptions
 })
 
-export const useStore = create<Store>((setState, getState) => ({
+export const useStore = create<Store>((setState) => ({
         fullname: 'Farmaan Malik',
         age: '23',
         svg: avatar.toString(),
